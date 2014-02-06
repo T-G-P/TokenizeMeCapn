@@ -2,6 +2,7 @@
  * tokenizer.c
  */
 #include <stdio.h>
+#include <string.h>
 
 /*
  * Tokenizer type.  You need to fill in the type as part of your implementation.
@@ -33,7 +34,9 @@ TokenizerT *TKCreate(char *separators, char *ts) {
     if(!(separators && ts)==NULL){
         TokenizerT *ptr;
         ptr = (TokenizerT *)malloc(sizeof(TokenizerT));
+        ptr->sep = (char *)malloc(sizeof(strlen(separators)+1));
         ptr->sep = separators;
+        ptr->string = (char *)malloc(sizeof(strlen(ts)+1));
         ptr->string = ts;
         ptr->pos = 0;
         return ptr; 
@@ -65,6 +68,14 @@ void TKDestroy(TokenizerT *tk) {
  */
 
 char *TKGetNextToken(TokenizerT *tk) {
+    static char buffer[2000];
+    while(tk->string[tk->pos] != '\0'){
+        if(isDelim(tk->sep, tk->string[tk->pos]) == 1){
+            buffer[tk->pos] = '\0';
+        }
+    
+
+   }
 
     return NULL;
 }
@@ -76,6 +87,49 @@ char *TKGetNextToken(TokenizerT *tk) {
  * Print out the tokens in the second string in left-to-right order.
  * Each token should be printed on a separate line.
  */
+
+int isDelim(char *delims, char token){
+    int i;
+    for(i = 0; i<strlen(delims); i++){
+        if(delims[i] == token){
+            return 1;
+        }
+    }
+    return 0; 
+}
+
+char *escapeReplace(char escapeChar){
+    if(escapeChar == 'n'){
+        return "[0x0a]";
+    }
+    if(escapeChar == 't'){
+        return "[0x09]";
+    }
+    if(escapeChar == 'v'){
+        return "[0x0b]";
+    }
+    if(escapeChar == 'b'){
+        return "[0x08]";
+    }
+    if(escapeChar == 'r'){
+        return "[0x0d]";
+    }
+    if(escapeChar == 'f'){
+        return "[0x0c]";
+    }
+    if(escapeChar == 'a'){
+        return "[0x07]";
+    }
+    if(escapeChar == '\'){
+        return "[0x5c]";
+    }
+    if(escapeChar == '"'){
+        return "[0x22]";
+    }
+    return NULL;
+}
+
+
 
 int main(int argc, char **argv) {
     TokenizerT *abc =  TKCreate(argv[1], argv[2]);
