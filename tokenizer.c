@@ -8,6 +8,9 @@
  */
 
 struct TokenizerT_ {
+    char *sep;
+    char *string;
+    int pos;
 };
 
 typedef struct TokenizerT_ TokenizerT;
@@ -27,8 +30,16 @@ typedef struct TokenizerT_ TokenizerT;
  */
 
 TokenizerT *TKCreate(char *separators, char *ts) {
+    if(!(separators && ts)==NULL){
+        TokenizerT *ptr;
+        ptr = (TokenizerT *)malloc(sizeof(TokenizerT));
+        ptr->sep = separators;
+        ptr->string = ts;
+        ptr->pos = 0;
+        return ptr; 
+    }
 
-  return NULL;
+    return NULL;
 }
 
 /*
@@ -55,7 +66,7 @@ void TKDestroy(TokenizerT *tk) {
 
 char *TKGetNextToken(TokenizerT *tk) {
 
-  return NULL;
+    return NULL;
 }
 
 /*
@@ -67,6 +78,9 @@ char *TKGetNextToken(TokenizerT *tk) {
  */
 
 int main(int argc, char **argv) {
+    TokenizerT *abc =  TKCreate(argv[1], argv[2]);
+    printf("abc params %s %s\n",abc->sep, abc->string);
 
-  return 0;
+
+    return 0;
 }
