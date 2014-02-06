@@ -54,6 +54,10 @@ TokenizerT *TKCreate(char *separators, char *ts) {
  */
 
 void TKDestroy(TokenizerT *tk) {
+    free(tk->sep);
+    free(tk->string);
+    free(tk);
+
 }
 
 /*
@@ -71,15 +75,19 @@ void TKDestroy(TokenizerT *tk) {
 char *TKGetNextToken(TokenizerT *tk) {
     static char buffer[2000];
     while(tk->string[tk->pos] != '\0'){
+        //iterate through tokenizer and insert null byte into buffer
         if(isDelim(tk->sep, tk->string[tk->pos]) == 1){
             buffer[tk->pos] = '\0';
         }
-
+        //now add token to buffer array since it's not a delim
+        else{
+            buffer[tk->pos] = tk->string[tk->pos];
+        }
 
 
         tk->pos++;
 
-   }
+    }
 
     return NULL;
 }
@@ -102,36 +110,36 @@ int isDelim(char *delims, char token){
     return 0;
 }
 /*
-char *escapeReplace(char escapeChar){
-    if(escapeChar == 'n'){
-        return "[0x0a]";
-    }
-    if(escapeChar == 't'){
-        return "[0x09]";
-    }
-    if(escapeChar == 'v'){
-        return "[0x0b]";
-    }
-    if(escapeChar == 'b'){
-        return "[0x08]";
-    }
-    if(escapeChar == 'r'){
-        return "[0x0d]";
-    }
-    if(escapeChar == 'f'){
-        return "[0x0c]";
-    }
-    if(escapeChar == 'a'){
-        return "[0x07]";
-    }
-    if(escapeChar == '\'){
-        return "[0x5c]";
-    }
-    if(escapeChar == '"'){
-        return "[0x22]";
-    }
-    return NULL;
-}*/
+   char *escapeReplace(char escapeChar){
+   if(escapeChar == 'n'){
+   return "[0x0a]";
+   }
+   if(escapeChar == 't'){
+   return "[0x09]";
+   }
+   if(escapeChar == 'v'){
+   return "[0x0b]";
+   }
+   if(escapeChar == 'b'){
+   return "[0x08]";
+   }
+   if(escapeChar == 'r'){
+   return "[0x0d]";
+   }
+   if(escapeChar == 'f'){
+   return "[0x0c]";
+   }
+   if(escapeChar == 'a'){
+   return "[0x07]";
+   }
+   if(escapeChar == '\'){
+   return "[0x5c]";
+   }
+   if(escapeChar == '"'){
+   return "[0x22]";
+   }
+   return NULL;
+   }*/
 
 
 
