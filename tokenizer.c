@@ -32,7 +32,7 @@ typedef struct TokenizerT_ TokenizerT;
  */
 
 TokenizerT *TKCreate(char *separators, char *ts) {
-    if(!(separators ==NULL && ts==NULL)){
+    if(!(separators ==NULL || ts==NULL)){
         TokenizerT *ptr;
         ptr = (TokenizerT *)malloc(sizeof(TokenizerT));
         ptr->sep = (char *)malloc(sizeof(char)*(strlen(separators)+1));
@@ -73,23 +73,30 @@ void TKDestroy(TokenizerT *tk) {
  */
 
 char *TKGetNextToken(TokenizerT *tk) {
-    static char buffer[2000];
+    int tmp = 0;
+    char * buffer = malloc(sizeof(char) *2000);
     while(tk->string[tk->pos] != '\0'){
         //iterate through tokenizer and insert null byte into buffer
         if(isDelim(tk->sep, tk->string[tk->pos]) == 1){
-            buffer[tk->pos] = '\0';
+            buffer[tmp] = '\0';
+            tmp=0;
+            return buffer;
         }
         //now add token to buffer array since it's not a delim
         else{
-            buffer[tk->pos] = tk->string[tk->pos];
+            buffer[tmp] = tk->string[tk->pos];
+            printf("inserted: %c, %d\n",buffer[tmp], tmp);
+            tmp++;
         }
 
 
         tk->pos++;
-
+    //printf("asdbasdf\n");
     }
+    printf("\"%s\"\n", buffer);
+    return buffer;
 
-    return NULL;
+    //return NULL;
 }
 
 /*
@@ -100,10 +107,10 @@ char *TKGetNextToken(TokenizerT *tk) {
  * Each token should be printed on a separate line.
  */
 
-int isDelim(char *delims, char token){
+int isDelim(char *delims, char tokenChar){
     int i;
     for(i = 0; i<strlen(delims); i++){
-        if(delims[i] == token){
+        if(delims[i] == tokenChar){
             return 1;
         }
     }
@@ -149,8 +156,9 @@ int main(int argc, char **argv) {
     }
 
     TokenizerT *tokObject =  TKCreate(argv[1], argv[2]);
-    printf(" %s %s\n",tokObject->sep, tokObject->string);
-
+    char * token = TKGetNextToken(tokObject);
+    printf("%d\n",tokObject->pos);
+    printf("%s\n",token);
 
     return 0;
 }
