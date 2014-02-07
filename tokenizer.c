@@ -77,6 +77,7 @@ void TKDestroy(TokenizerT *tk) {
 char *TKGetNextToken(TokenizerT *tk) {
     int tmp = 0;
     int i;
+    //char * nextToken = malloc(sizeof(char)*strlen(tk->string)+1);
     char * tmpString =  malloc(sizeof(char) *6);
     char * buffer = malloc(sizeof(char)*(strlen(tk->string)+1));
     while(tk->string[tk->pos] != '\0'){
@@ -85,21 +86,23 @@ char *TKGetNextToken(TokenizerT *tk) {
             buffer[tmp] = '\0';
             //printf("\n");
             //tmp = 0;
-            //return buffer;
+            tk->pos++;
+            //printf("returning\n");
+            return buffer;
         }
         /*add escape characters to buffer*/
-        else if(tk->string[tk->pos] == '\n'){
+        /*else if(tk->string[tk->pos] == '\n'){
             tmpString = escapeReplace(tk->string[tk->pos]);
             for(i = 0; i<strlen(tmpString); i++){
                 buffer[tmp] = tmpString[i];
             }
-        }
+        }*/
 
 
         /*now add token to buffer array since it's not a delim*/
         else{
             buffer[tmp] = tk->string[tk->pos];
-            printf("inserted: %c, %d\n",buffer[tmp], tmp);
+            //printf("inserted: %c, %d\n",buffer[tmp], tmp);
             tmp++;
         }
 
@@ -170,9 +173,17 @@ int main(int argc, char **argv) {
 
     TokenizerT *tokObject =  TKCreate(argv[1], argv[2]);
     char * token = TKGetNextToken(tokObject);
-
-    printf("%d\n",tokObject->pos);
+    int size = strlen(tokObject->string);
     printf("%s\n",token);
+    while(tokObject->pos < size){
+        token = TKGetNextToken(tokObject);
+        //printf("%d\n",tokObject->pos);
+        printf("%s\n",token);
+
+    }
+
+    //printf("%d\n",tokObject->pos);
+    //printf("%s\n",token);
     //TkDestroy(tokObject);
     return 0;
 }
