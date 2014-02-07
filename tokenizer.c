@@ -78,11 +78,12 @@ char *TKGetNextToken(TokenizerT *tk) {
     int tmp = 0;
     int i;
     char * tmpString =  malloc(sizeof(char) *6);
-    char * buffer = malloc(sizeof(char) *2000);
+    char * buffer = malloc(sizeof(char)*(strlen(tk->string)+1));
     while(tk->string[tk->pos] != '\0'){
         /*iterate through tokenizer and insert null byte into buffer*/
         if(isDelim(tk->sep, tk->string[tk->pos]) == 1){
             buffer[tmp] = '\0';
+            //printf("\n");
             //tmp = 0;
             //return buffer;
         }
@@ -169,8 +170,9 @@ int main(int argc, char **argv) {
 
     TokenizerT *tokObject =  TKCreate(argv[1], argv[2]);
     char * token = TKGetNextToken(tokObject);
+
     printf("%d\n",tokObject->pos);
     printf("%s\n",token);
-
+    //TkDestroy(tokObject);
     return 0;
 }
