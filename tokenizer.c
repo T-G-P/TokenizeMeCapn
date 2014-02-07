@@ -92,11 +92,11 @@ char *TKGetNextToken(TokenizerT *tk) {
         }
         /*add escape characters to buffer*/
         /*else if(tk->string[tk->pos] == '\n'){
-            tmpString = escapeReplace(tk->string[tk->pos]);
-            for(i = 0; i<strlen(tmpString); i++){
-                buffer[tmp] = tmpString[i];
-            }
-        }*/
+          tmpString = escapeReplace(tk->string[tk->pos]);
+          for(i = 0; i<strlen(tmpString); i++){
+          buffer[tmp] = tmpString[i];
+          }
+          }*/
 
 
         /*now add token to buffer array since it's not a delim*/
@@ -174,11 +174,16 @@ int main(int argc, char **argv) {
     TokenizerT *tokObject =  TKCreate(argv[1], argv[2]);
     char * token = TKGetNextToken(tokObject);
     int size = strlen(tokObject->string);
-    printf("%s\n",token);
+    if(!strcmp(token,"") == 0){
+        printf("%s\n",token);
+    }
+
     while(tokObject->pos < size){
         token = TKGetNextToken(tokObject);
         //printf("%d\n",tokObject->pos);
-        printf("%s\n",token);
+        if(!strcmp(token,"") == 0){
+            printf("%s\n",token);
+        }
 
     }
 
