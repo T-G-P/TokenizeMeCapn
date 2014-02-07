@@ -9,6 +9,8 @@
  * Tokenizer type.  You need to fill in the type as part of your implementation.
  */
 int isDelim(char *, char);
+char *escapeReplace(char);
+
 struct TokenizerT_ {
     char *sep;
     char *string;
@@ -74,6 +76,8 @@ void TKDestroy(TokenizerT *tk) {
 
 char *TKGetNextToken(TokenizerT *tk) {
     int tmp = 0;
+    int i;
+    char * tmpString =  malloc(sizeof(char) *6);
     char * buffer = malloc(sizeof(char) *2000);
     while(tk->string[tk->pos] != '\0'){
         /*iterate through tokenizer and insert null byte into buffer*/
@@ -83,8 +87,11 @@ char *TKGetNextToken(TokenizerT *tk) {
             //return buffer;
         }
         /*add escape characters to buffer*/
-        else if(){
-
+        else if(tk->string[tk->pos] == '\n'){
+            tmpString = escapeReplace(tk->string[tk->pos]);
+            for(i = 0; i<strlen(tmpString); i++){
+                buffer[tmp] = tmpString[i];
+            }
         }
 
 
@@ -144,7 +151,7 @@ char *escapeReplace(char escapeChar){
     if(escapeChar == '\a'){
         return "[0x07]";
     }
-    if(escapeChar == '\'){
+    if(escapeChar == '\\'){
         return "[0x5c]";
     }
     if(escapeChar == '"'){
