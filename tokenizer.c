@@ -76,13 +76,19 @@ char *TKGetNextToken(TokenizerT *tk) {
     int tmp = 0;
     char * buffer = malloc(sizeof(char) *2000);
     while(tk->string[tk->pos] != '\0'){
-        //iterate through tokenizer and insert null byte into buffer
+        /*iterate through tokenizer and insert null byte into buffer*/
         if(isDelim(tk->sep, tk->string[tk->pos]) == 1){
             buffer[tmp] = '\0';
-            tmp=0;
-            return buffer;
+            //tmp = 0;
+            //return buffer;
         }
-        //now add token to buffer array since it's not a delim
+        /*add escape characters to buffer*/
+        else if(){
+
+        }
+
+
+        /*now add token to buffer array since it's not a delim*/
         else{
             buffer[tmp] = tk->string[tk->pos];
             printf("inserted: %c, %d\n",buffer[tmp], tmp);
@@ -91,9 +97,8 @@ char *TKGetNextToken(TokenizerT *tk) {
 
 
         tk->pos++;
-    //printf("asdbasdf\n");
     }
-    printf("\"%s\"\n", buffer);
+    //printf("\"%s\"\n", buffer);
     return buffer;
 
     //return NULL;
@@ -116,37 +121,37 @@ int isDelim(char *delims, char tokenChar){
     }
     return 0;
 }
-/*
-   char *escapeReplace(char escapeChar){
-   if(escapeChar == 'n'){
-   return "[0x0a]";
-   }
-   if(escapeChar == 't'){
-   return "[0x09]";
-   }
-   if(escapeChar == 'v'){
-   return "[0x0b]";
-   }
-   if(escapeChar == 'b'){
-   return "[0x08]";
-   }
-   if(escapeChar == 'r'){
-   return "[0x0d]";
-   }
-   if(escapeChar == 'f'){
-   return "[0x0c]";
-   }
-   if(escapeChar == 'a'){
-   return "[0x07]";
-   }
-   if(escapeChar == '\'){
-   return "[0x5c]";
-   }
-   if(escapeChar == '"'){
-   return "[0x22]";
-   }
-   return NULL;
-   }*/
+
+char *escapeReplace(char escapeChar){
+    if(escapeChar == '\n'){
+        return "[0x0a]";
+    }
+    if(escapeChar == '\t'){
+        return "[0x09]";
+    }
+    if(escapeChar == '\v'){
+        return "[0x0b]";
+    }
+    if(escapeChar == '\b'){
+        return "[0x08]";
+    }
+    if(escapeChar == '\r'){
+        return "[0x0d]";
+    }
+    if(escapeChar == '\f'){
+        return "[0x0c]";
+    }
+    if(escapeChar == '\a'){
+        return "[0x07]";
+    }
+    if(escapeChar == '\'){
+        return "[0x5c]";
+    }
+    if(escapeChar == '"'){
+        return "[0x22]";
+    }
+    return NULL;
+}
 
 
 
