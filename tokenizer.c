@@ -184,6 +184,7 @@ char *escapeReplace(char escapeChar){
 
 int main(int argc, char **argv) {
     if(argc != 3){
+        printf("Invalid number of arguments entered. Please follow this format:\n               ./tokenizer \"delimeters\" \"string\"\n\n\n");
         return -1;
     }
 
