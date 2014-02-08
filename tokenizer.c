@@ -91,50 +91,25 @@ char *TKGetNextToken(TokenizerT *tk) {
             return buffer;
         }
         /*add escape characters to buffer*/
-        else if(tk->string[tk->pos])=='\\'{
+        else if(tk->string[tk->pos]=='\\'){
             if (isEscape(tk->string[tk->pos+1])==1){
-                tk->string[tk->pos+1]='\n';
-            }
-            else if(tk->string[tk->pos+1]=='t'){
-                tk->string[tk->pos+1]='\t';
-            }
-            else if(tk->string[tk->pos+1]=='v'){
-                tk->string[tk->pos+1]='\v';
-            }
-            else if(tk->string[tk->pos+1]=='b'){
-                tk->string[tk->pos+1]='\b';
-            }
-            else if(tk->string[tk->pos+1]=='r'){
-                tk->string[tk->pos+1]='\r';
-            }
-            else if(tk->string[tk->pos+1]=='f'){
-                tk->string[tk->pos+1]='\f';
-            }
-            else if(tk->string[tk->pos+1]=='a'){
-                tk->string[tk->pos+1]='\a';
-            }
-            else if(tk->string[tk->pos+1]=='\\'){
-                tk->string[tk->pos+1]='\\';
-            }
-            else{
-                ;
+                strcpy(tmpString,escapeReplace(tk->string[tk->pos+1]));
+
             }
 
-
-            strcpy(tmpString,escapeReplace(tk->string[tk->pos]));
-            for(i = 0; i<strlen(tmpString); i++){
-                buffer[tmp] = tmpString[i];
-                tmp++;
-            }
-
-        }
-
-        /*now add token to buffer array since it's not a delim*/
-        else{
-            buffer[tmp] = tk->string[tk->pos];
-            //printf("inserted: %c, %d\n",buffer[tmp], tmp);
+        for(i = 0; i<strlen(tmpString); i++){
+            buffer[tmp] = tmpString[i];
             tmp++;
         }
+
+    }
+
+    /*now add token to buffer array since it's not a delim*/
+            else{
+                buffer[tmp] = tk->string[tk->pos];
+                //printf("inserted: %c, %d\n",buffer[tmp], tmp);
+                tmp++;
+            }
 
         tk->pos++;
     }
