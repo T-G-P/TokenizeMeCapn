@@ -94,6 +94,7 @@ char *TKGetNextToken(TokenizerT *tk) {
         else if(tk->string[tk->pos]=='\\'){
             if (isEscape(tk->string[tk->pos+1])==1){
                 strcpy(tmpString,escapeReplace(tk->string[tk->pos+1]));
+                tk->pos++;
 
             }
 
@@ -204,6 +205,6 @@ int main(int argc, char **argv) {
 
     //printf("%d\n",tokObject->pos);
     //printf("%s\n",token);
-    //TkDestroy(tokObject);
+    TKDestroy(tokObject);
     return 0;
 }
