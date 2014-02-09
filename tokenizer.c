@@ -98,19 +98,19 @@ char *TKGetNextToken(TokenizerT *tk) {
 
             }
 
-        for(i = 0; i<strlen(tmpString); i++){
-            buffer[tmp] = tmpString[i];
-            tmp++;
-        }
-
-    }
-
-    /*now add token to buffer array since it's not a delim*/
-            else{
-                buffer[tmp] = tk->string[tk->pos];
-                //printf("inserted: %c, %d\n",buffer[tmp], tmp);
+            for(i = 0; i<strlen(tmpString); i++){
+                buffer[tmp] = tmpString[i];
                 tmp++;
             }
+
+        }
+
+        /*now add token to buffer array since it's not a delim*/
+        else{
+            buffer[tmp] = tk->string[tk->pos];
+            //printf("inserted: %c, %d\n",buffer[tmp], tmp);
+            tmp++;
+        }
 
         tk->pos++;
     }
